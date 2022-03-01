@@ -4,11 +4,17 @@ import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import { useLoader } from "./useLoader";
 import { postJSON, fetchJSON } from "./http";
 
-function QuestionComponent() {
+function QuizComponent({ reload }) {
   const [question, setQuestion] = useState();
+  const [answer, setAnswer] = useState();
 
   async function handleLoadQuestion() {
     setQuestion(await fetchJSON("/api/question"));
+  }
+
+  function handleReload() {
+    setQuestion(undefined);
+    reload();
   }
 
   useEffect(() => {
@@ -23,16 +29,21 @@ function QuestionComponent() {
     );
   }
 
-  return <QuestionDisplay question={question} />;
+  return (
+    <QuestionDisplay
+      question={question}
+      answer={answer}
+      setAnswer={setAnswer}
+    />
+  );
 }
 
 ///This function actually renders the question with all the answers etc.
-function QuestionDisplay({ question }) {
-  const [answer, setAnswer] = useState("");
-
+function QuestionDisplay({ question, answer, setAnswer, onReload }) {
   async function handleAnswer(answer) {
     const result = await postJSON("/api/question", { id: question.id, answer });
     setAnswer(await result.text());
+    onReload();
   }
   if (!answer) {
     return (
@@ -82,7 +93,7 @@ function Application() {
     <BrowserRouter>
       <Routes>
         <Route path={"/"} element={<FrontPage />} />
-        <Route path={"/question"} element={<QuestionComponent />} />
+        <Route path={"/question"} element={<QuizComponent />} />
       </Routes>
     </BrowserRouter>
   );
