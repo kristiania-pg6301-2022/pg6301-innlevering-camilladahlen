@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import * as ReactDOM from "react-dom";
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useLoader } from "./useLoader";
-import { postJSON, fetchJSON } from "./http";
+import { fetchJSON, postJSON } from "./http";
 
 function QuizComponent({ reload }) {
   const [question, setQuestion] = useState();
@@ -14,12 +14,9 @@ function QuizComponent({ reload }) {
 
   function handleReload() {
     setQuestion(undefined);
+    setAnswer(undefined);
     reload();
   }
-
-  useEffect(() => {
-    handleLoadQuestion();
-  }, []);
 
   if (!question) {
     return (
@@ -34,6 +31,7 @@ function QuizComponent({ reload }) {
       question={question}
       answer={answer}
       setAnswer={setAnswer}
+      onReload={handleReload}
     />
   );
 }
@@ -43,8 +41,8 @@ function QuestionDisplay({ question, answer, setAnswer, onReload }) {
   async function handleAnswer(answer) {
     const result = await postJSON("/api/question", { id: question.id, answer });
     setAnswer(await result.text());
-    onReload();
   }
+
   if (!answer) {
     return (
       <div>
@@ -64,26 +62,17 @@ function QuestionDisplay({ question, answer, setAnswer, onReload }) {
   return (
     <div>
       <p>You answered {answer === "true" ? "correctly" : "incorrect"}</p>
-      <button>New question</button>
-    </div>
-  );
-}
-
-function PageLinks() {
-  return (
-    <div>
-      <div>
-        <Link to={"/question"}>Random question</Link>
-      </div>
+      <button onClick={onReload}>New question</button>
     </div>
   );
 }
 
 function FrontPage() {
+  const { reload } = useLoader(async () => fetchJSON("/"));
   return (
     <div>
       <h1>Quiz-app!</h1>
-      <PageLinks />
+      <QuizComponent reload={reload} />
     </div>
   );
 }
@@ -93,7 +82,6 @@ function Application() {
     <BrowserRouter>
       <Routes>
         <Route path={"/"} element={<FrontPage />} />
-        <Route path={"/question"} element={<QuizComponent />} />
       </Routes>
     </BrowserRouter>
   );
