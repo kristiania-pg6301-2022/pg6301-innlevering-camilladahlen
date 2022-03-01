@@ -8,8 +8,8 @@ export const Questions = [
       answer_b: "Dog",
     },
     correct_answers: {
-      answer_a_correct: true,
-      answer_b_correct: true,
+      answer_a_correct: "true",
+      answer_b_correct: "true",
     },
   },
   {
@@ -21,8 +21,8 @@ export const Questions = [
       answer_b: "No",
     },
     correct_answers: {
-      answer_a_correct: true,
-      answer_b_correct: false,
+      answer_a_correct: "true",
+      answer_b_correct: "false",
     },
   },
 ];
