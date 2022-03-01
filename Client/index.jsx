@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as ReactDOM from "react-dom";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
 function QuestionComponent() {
   const [question, setQuestion] = useState();
-
   async function handleLoadQuestion() {
     const res = await fetch("/api/question");
     setQuestion(await res.json());
   }
+
+  useEffect(() => {
+    handleLoadQuestion();
+  }, []);
 
   if (!question) {
     return (
