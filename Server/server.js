@@ -14,7 +14,16 @@ app.get("/api/question", (req, res) => {
 });
 
 //Should take in {id, answer} and return true or false, depending on answer
-app.post("/api/question");
+app.post("/api/question", (req, res) => {
+  const { id, answer } = req.body;
+  if (Questions.isCorrectAnswer(id, answer)) {
+    res.setHeader("Correct-Answer", "true");
+  } else {
+    res.setHeader("Correct-Answer", "false");
+  }
+  res.sendStatus(200);
+});
+
 app.use(express.static("../Client/dist"));
 app.use((req, res, next) => {
   if (req.method === "GET" && !req.path.startsWith("/api/")) {
