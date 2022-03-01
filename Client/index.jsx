@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import * as ReactDOM from "react-dom";
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import { useLoader } from "./useLoader";
+import { postJSON, fetchJSON } from "./http";
 
 function QuestionComponent() {
   const [question, setQuestion] = useState();
@@ -31,15 +33,8 @@ function QuestionDisplay({ question }) {
 
   async function handleAnswer(answer) {
     const { id } = question;
-
-    const res = await fetch("/api/question", {
-      method: "post",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({ id, answer }),
-    });
-    setAnswer(await res.text());
+    const result = await postJSON("/api/question", { id, answer });
+    setAnswer(await result.text());
   }
   if (!answer) {
     return (
@@ -60,6 +55,7 @@ function QuestionDisplay({ question }) {
   return (
     <div>
       <p>You answered {answer === "true" ? "correctly" : "incorrect"}</p>
+      <button>New question</button>
     </div>
   );
 }
