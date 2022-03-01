@@ -4,6 +4,7 @@ import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 
 function QuestionComponent() {
   const [question, setQuestion] = useState();
+
   async function handleLoadQuestion() {
     const res = await fetch("/api/question");
     setQuestion(await res.json());
@@ -29,7 +30,7 @@ function QuestionDisplay({ question }) {
   async function handleAnswer(answer) {
     const { id } = question;
 
-    let res = await fetch("/api/question", {
+    const res = await fetch("/api/question", {
       method: "post",
       headers: {
         "content-type": "application/json",
@@ -37,10 +38,9 @@ function QuestionDisplay({ question }) {
       body: JSON.stringify({ id, answer }),
     });
 
-    if (res.getHeader("Correct-Answer") === "true") {
-      console.log("This was the correct answer");
-    }
+    console.log(await res.json());
   }
+
   return (
     <div>
       <h2>{question.question}</h2>
@@ -70,6 +70,7 @@ function PageLinks() {
     </div>
   );
 }
+
 function FrontPage() {
   return (
     <div>
@@ -90,4 +91,5 @@ function Application() {
     </BrowserRouter>
   );
 }
+
 ReactDOM.render(<Application />, document.getElementById("app"));
