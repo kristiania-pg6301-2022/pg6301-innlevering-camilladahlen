@@ -7,6 +7,10 @@ export const Questions = [
       answer_a: "Cat",
       answer_b: "Dog",
     },
+    correct_answers: {
+      answer_a_correct: true,
+      answer_b_correct: true,
+    },
   },
   {
     id: 2,
@@ -15,6 +19,10 @@ export const Questions = [
     answers: {
       answer_a: "Yes",
       answer_b: "No",
+    },
+    correct_answers: {
+      answer_a_correct: true,
+      answer_b_correct: false,
     },
   },
 ];
