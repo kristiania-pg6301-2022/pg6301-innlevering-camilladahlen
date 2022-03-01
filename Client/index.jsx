@@ -38,7 +38,7 @@ function QuestionDisplay({ question }) {
       body: JSON.stringify({ id, answer }),
     });
 
-    console.log(await res.json());
+    console.log(await res.text());
   }
 
   return (

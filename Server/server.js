@@ -17,9 +17,11 @@ app.get("/api/question", (req, res) => {
 app.post("/api/question", (req, res) => {
   const { id, answer } = req.body;
   if (Questions.isCorrectAnswer(id, answer)) {
-    return res.json({ result: "correct" });
+    //return res.json({ result: "correct" });
+    res.status(200).send("Correct!");
   } else {
-    return res.json({ result: "incorrect" });
+    //return res.json({ result: "incorrect" });
+    res.status(200).send("Incorrect!");
   }
 });
 
