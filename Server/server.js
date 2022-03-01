@@ -17,11 +17,10 @@ app.get("/api/question", (req, res) => {
 app.post("/api/question", (req, res) => {
   const { id, answer } = req.body;
   if (Questions.isCorrectAnswer(id, answer)) {
-    res.setHeader("Correct-Answer", "true");
+    return res.json({ result: "correct" });
   } else {
-    res.setHeader("Correct-Answer", "false");
+    return res.json({ result: "incorrect" });
   }
-  res.sendStatus(200);
 });
 
 app.use(express.static("../Client/dist"));
