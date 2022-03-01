@@ -4,10 +4,10 @@ import * as path from "path";
 //app is the "program" that will run on our server
 const app = express();
 
-app.use(express.static("..Client/dist"));
+app.use(express.static("../Client/dist"));
 app.use((req, res, next) => {
   if (req.method === "GET" && !req.path.startsWith("/api/")) {
-    return res.sendFile(path.resolve("..Client/dist/index.html"));
+    return res.sendFile(path.resolve("../Client/dist/index.html"));
   } else {
     next();
   }
