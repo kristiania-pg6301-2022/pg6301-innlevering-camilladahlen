@@ -1,9 +1,11 @@
 import express from "express";
 import * as path from "path";
 import * as Questions from "./questions.js";
+import bodyParser from "body-parser";
 
 //app is the "program" that will run on our server
 const app = express();
+app.use(bodyParser.json()); //Need this so that our server can parse json-data in body
 
 //Should return a random question with {id, category, question, answers}
 app.get("/api/question", (req, res) => {
