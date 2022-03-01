@@ -7,8 +7,8 @@ const app = express();
 
 //Should return a random question with {id, category, question, answers}
 app.get("/api/question", (req, res) => {
-  const question = Questions.randomQuestion();
-  return res.json(question);
+  const { id, category, question, answers } = Questions.randomQuestion();
+  return res.json({ id, category, question, answers });
 });
 
 //Should take in {id, answer} and return true or false, depending on answer
