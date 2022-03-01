@@ -10,6 +10,10 @@ app.get("/api/question", (req, res) => {
     res.json(question);
 });
 
+app.post("/api/question", (req, res, next) => {
+    res.sendStatus(401);
+});
+
 app.use(express.static("../Client/dist"));
 app.use((req, res, next) => {
   if (req.method === "GET" && !req.path.startsWith("/api/")) {
