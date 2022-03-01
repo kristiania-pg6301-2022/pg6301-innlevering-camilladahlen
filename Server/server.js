@@ -18,10 +18,10 @@ app.post("/api/question", (req, res) => {
   const { id, answer } = req.body;
   if (Questions.isCorrectAnswer(id, answer)) {
     //return res.json({ result: "correct" });
-    res.status(200).send("Correct!");
+    res.status(200).send("true");
   } else {
     //return res.json({ result: "incorrect" });
-    res.status(200).send("Incorrect!");
+    res.status(200).send("false");
   }
 });
 

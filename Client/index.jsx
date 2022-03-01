@@ -27,6 +27,8 @@ function QuestionComponent() {
 
 ///This function actually renders the question with all the answers etc.
 function QuestionDisplay({ question }) {
+  const [answer, setAnswer] = useState("");
+
   async function handleAnswer(answer) {
     const { id } = question;
 
@@ -37,22 +39,27 @@ function QuestionDisplay({ question }) {
       },
       body: JSON.stringify({ id, answer }),
     });
-
-    console.log(await res.text());
+    setAnswer(await res.text());
   }
-
+  if (!answer) {
+    return (
+      <div>
+        <h2>{question.question}</h2>
+        {Object.keys(question.answers)
+          .filter((a) => question.answers[a])
+          .map((a) => (
+            <div key={a}>
+              <button onClick={() => handleAnswer(a)}>
+                {question.answers[a]}
+              </button>
+            </div>
+          ))}
+      </div>
+    );
+  }
   return (
     <div>
-      <h2>{question.question}</h2>
-      {Object.keys(question.answers)
-        .filter((a) => question.answers[a])
-        .map((a) => (
-          <div key={a}>
-            <button onClick={() => handleAnswer(a)}>
-              {question.answers[a]}
-            </button>
-          </div>
-        ))}
+      <p>You answered {answer === "true" ? "correctly" : "incorrect"}</p>
     </div>
   );
 }
