@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as ReactDOM from "react-dom";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 
 function QuestionComponent() {
   const [question, setQuestion] = useState();
@@ -26,6 +26,21 @@ function QuestionComponent() {
 
 ///This function actually renders the question with all the answers etc.
 function QuestionDisplay({ question }) {
+  async function handleAnswer(answer) {
+    const { id } = question;
+
+    let res = await fetch("/api/question", {
+      method: "post",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ id, answer }),
+    });
+
+    if (res.getHeader("Correct-Answer") === "true") {
+      console.log("This was the correct answer");
+    }
+  }
   return (
     <div>
       <h2>{question.question}</h2>
@@ -33,7 +48,7 @@ function QuestionDisplay({ question }) {
         .filter((a) => question.answers[a])
         .map((a) => (
           <div key={a}>
-            <button onClick={() => console.log("Should handle answer")}>
+            <button onClick={() => handleAnswer(a)}>
               {question.answers[a]}
             </button>
           </div>
