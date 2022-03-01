@@ -37,13 +37,20 @@ function AnswerQuestion() {
     );
 }
 
-function QuizApp() {
+function QuizApplication() {
+    return <Routes>
+        <Route path={"/"} element={<AnswerQuestion/>}>
+        </Route>
+    </Routes>
+}
+
+function App() {
     return <BrowserRouter>
         <Routes>
             <Route path={"/"} element={<FrontPage/>} />
-            <Route path={"/question"} element={<AnswerQuestion/>} />
+            <Route path={"/question/*"} element={<QuizApplication />} />
         </Routes>
     </BrowserRouter>;
 }
 
-ReactDOM.render(<QuizApp />, document.getElementById("app"));
+ReactDOM.render(<App />, document.getElementById("app"));
