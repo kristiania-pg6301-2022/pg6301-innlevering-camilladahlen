@@ -1,0 +1,29 @@
+{
+  "name": "pg6301-innlevering-camilladahlen",
+  "version": "1.0.0",
+  "description": "pg6301-innlevering-camilladahlen created by GitHub Classroom",
+  "main": "index.js",
+  "scripts": {
+    "dev": "parcel index.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kristiania-pg6301-2022/pg6301-innlevering-camilladahlen.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kristiania-pg6301-2022/pg6301-innlevering-camilladahlen/issues"
+  },
+  "homepage": "https://github.com/kristiania-pg6301-2022/pg6301-innlevering-camilladahlen#readme",
+  "devDependencies": {
+    "parcel": "^2.3.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^6.2.2"
+  },
+  "dependencies": {
+    "react-dom": "^17.0.2"
+  }
+}
