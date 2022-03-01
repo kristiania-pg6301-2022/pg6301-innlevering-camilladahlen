@@ -8,8 +8,7 @@ function QuestionComponent() {
   const [question, setQuestion] = useState();
 
   async function handleLoadQuestion() {
-    const res = await fetch("/api/question");
-    setQuestion(await res.json());
+    setQuestion(await fetchJSON("/api/question"));
   }
 
   useEffect(() => {
@@ -32,8 +31,7 @@ function QuestionDisplay({ question }) {
   const [answer, setAnswer] = useState("");
 
   async function handleAnswer(answer) {
-    const { id } = question;
-    const result = await postJSON("/api/question", { id, answer });
+    const result = await postJSON("/api/question", { id: question.id, answer });
     setAnswer(await result.text());
   }
   if (!answer) {
@@ -58,10 +56,6 @@ function QuestionDisplay({ question }) {
       <button>New question</button>
     </div>
   );
-}
-
-function Answer() {
-  return <h1>This should show the answer</h1>;
 }
 
 function PageLinks() {
@@ -89,7 +83,6 @@ function Application() {
       <Routes>
         <Route path={"/"} element={<FrontPage />} />
         <Route path={"/question"} element={<QuestionComponent />} />
-        <Route path={"/answer"} element={<Answer />} />
       </Routes>
     </BrowserRouter>
   );

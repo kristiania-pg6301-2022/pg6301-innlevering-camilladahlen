@@ -4,7 +4,13 @@ class HttpError extends Error {
   }
 }
 
-export async function fetchJSON(url) {}
+export async function fetchJSON(url) {
+  const res = await fetch(url);
+  if (!res.ok) {
+    throw new HttpError(res.status, res.statusText);
+  }
+  return await res.json();
+}
 
 export async function postJSON(url, json) {
   const res = await fetch(url, {
