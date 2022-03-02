@@ -1,7 +1,7 @@
-///This function actually renders the question with all the answers etc.
 import React, { useState } from "react";
 
-export function QuestionDisplay({ question, quizApi }) {
+// Component for rendering a question, as well as
+export function QuestionDisplay({ question, quizApi, reload }) {
   const [answer, setAnswer] = useState();
   if (!answer) {
     return (
@@ -28,6 +28,7 @@ export function QuestionDisplay({ question, quizApi }) {
   return (
     <div>
       <p>You answered {answer === "true" ? "correctly" : "incorrectly"}</p>
+      <button onClick={() => reload()}>New question</button>
     </div>
   );
 }

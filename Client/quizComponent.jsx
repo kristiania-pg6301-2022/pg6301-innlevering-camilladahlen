@@ -1,12 +1,23 @@
 import { useLoader } from "./useLoader";
 import { fetchJSON } from "./http";
-import React from "react";
+import React, { useState } from "react";
 import { QuestionDisplay } from "./questionDisplay";
 
 export function QuizComponent({ quizApi }) {
   //This will automatically load/fetch the needed data for us.
-  const { error, data: question } = useLoader(() => quizApi.getQuestion(), []);
+  const [reload, setReload] = useState(0);
+  const { error, data: question } = useLoader(
+    () => quizApi.getQuestion(),
+    [reload]
+  );
 
+  function doReload() {
+    console.log("Should reload");
+    setReload((reload) => {
+      //Dumb hack for setting a new value on reload each time you toggle this function
+      return reload === 0 ? 1 : 0;
+    });
+  }
   if (error) {
     return <div>Something went wrong: {error.toString()}</div>;
   }
@@ -16,7 +27,13 @@ export function QuizComponent({ quizApi }) {
   }
 
   //When the question is loaded correctly, we can render it
-  return <QuestionDisplay question={question} quizApi={quizApi} />;
+  return (
+    <QuestionDisplay
+      question={question}
+      quizApi={quizApi}
+      reload={() => doReload()}
+    />
+  );
 }
 
 export function FrontPage({ quizApi }) {

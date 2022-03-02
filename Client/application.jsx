@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { FrontPage } from "./quizApplication";
+import { FrontPage } from "./quizComponent";
 import React from "react";
 
 export function Application({ quizApi }) {
