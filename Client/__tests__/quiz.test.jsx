@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { FrontPage } from "../index.jsx";
 
 describe("quiz application", () => {
   it("shows a question", () => {

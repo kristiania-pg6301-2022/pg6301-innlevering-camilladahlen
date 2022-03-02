@@ -67,7 +67,7 @@ function QuestionDisplay({ question, answer, setAnswer, onReload }) {
   );
 }
 
-function FrontPage() {
+export function FrontPage() {
   const { reload } = useLoader(async () => fetchJSON("/"));
   return (
     <div>
