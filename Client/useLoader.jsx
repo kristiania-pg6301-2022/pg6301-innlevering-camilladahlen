@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 
 /// Custom hook that can be used in React apps
-export function useLoader(loader) {
+export function useLoader(loader, deps) {
   const [data, setData] = useState();
   const [error, setError] = useState();
   const [loading, setLoading] = useState(true);
 
   useEffect(async () => {
-    setError(undefined);
     setLoading(true);
+    setData(undefined);
+    setError(undefined);
     try {
       setData(await loader());
     } catch (error) {
@@ -16,6 +17,6 @@ export function useLoader(loader) {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, deps);
   return { loading, data, error };
 }
