@@ -27,5 +27,5 @@ export async function submitJSON(url, method, payload) {
   if (!res.ok) {
     throw new HttpError(res.status, res.statusText);
   }
-  return res;
+  return res.text();
 }

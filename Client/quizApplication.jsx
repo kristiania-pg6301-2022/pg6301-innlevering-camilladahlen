@@ -1,76 +1,29 @@
 import { useLoader } from "./useLoader";
-import { fetchJSON, postJSON } from "./http";
-import React, { useState } from "react";
+import { fetchJSON } from "./http";
+import React from "react";
+import { QuestionDisplay } from "./questionDisplay";
 
-function QuizComponent({ reload }) {
-  const [question, setQuestion] = useState();
-  const [answer, setAnswer] = useState();
+export function QuizComponent({ quizApi }) {
+  //This will automatically load/fetch the needed data for us.
+  const { error, data: question } = useLoader(() => quizApi.getQuestion(), []);
 
-  async function handleLoadQuestion() {
-    setQuestion(await fetchJSON("/api/question"));
-  }
-
-  function handleReload() {
-    setQuestion(undefined);
-    setAnswer(undefined);
-    reload();
+  if (error) {
+    return <div>Something went wrong: {error.toString()}</div>;
   }
 
   if (!question) {
-    return (
-      <div>
-        <button onClick={handleLoadQuestion}>Load a new question</button>
-      </div>
-    );
+    return <h1>Loading question...</h1>;
   }
 
-  return (
-    <QuestionDisplay
-      question={question}
-      answer={answer}
-      setAnswer={setAnswer}
-      onReload={handleReload}
-    />
-  );
+  //When the question is loaded correctly, we can render it
+  return <QuestionDisplay question={question} quizApi={quizApi} />;
 }
 
-///This function actually renders the question with all the answers etc.
-function QuestionDisplay({ question, answer, setAnswer, onReload }) {
-  async function handleAnswer(answer) {
-    const result = await postJSON("/api/question", { id: question.id, answer });
-    setAnswer(await result.text());
-  }
-
-  if (!answer) {
-    return (
-      <div>
-        <h2>{question.question}</h2>
-        {Object.keys(question.answers)
-          .filter((a) => question.answers[a])
-          .map((a) => (
-            <div key={a}>
-              <button onClick={() => handleAnswer(a)}>
-                {question.answers[a]}
-              </button>
-            </div>
-          ))}
-      </div>
-    );
-  }
-  return (
-    <div>
-      <p>You answered {answer === "true" ? "correctly" : "incorrect"}</p>
-      <button onClick={onReload}>New question</button>
-    </div>
-  );
-}
-
-export function FrontPage() {
-  //const { reload } = useLoader(async () => fetchJSON("/"));
+export function FrontPage({ quizApi }) {
   return (
     <div>
       <h1>Quiz-app!</h1>
-      {/*<QuizComponent reload={reload} />*/}
+      <QuizComponent quizApi={quizApi} />
     </div>
   );
 }
