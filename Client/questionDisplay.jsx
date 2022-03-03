@@ -8,6 +8,9 @@ export function QuestionDisplay({ question, quizApi, reload }) {
       <div>
         <h2>{question.question}</h2>
         {Object.keys(question.answers) //This gives us a stream of all the keys in the object.answers properties (remember, a JS object is just a key-value mapping)
+          /*All questions are configured with six options, but for some questions only a couple of answers are actually supplied. Therefore, we want to filter out
+           * the ones that don't exist so that we get a clearer view*/
+          .filter((a) => question.answers[a])
           .map((answer) => (
             <div key={answer}>
               <button
