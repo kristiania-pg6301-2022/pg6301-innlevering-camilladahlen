@@ -33,12 +33,6 @@ beforeEach(() => {
   document.body.appendChild(container);
 });
 
-it("QuizApi constructor has been called", () => {
-  expect(QuizApi).not.toHaveBeenCalled();
-  const api = new QuizApi();
-  expect(QuizApi).toHaveBeenCalledTimes(1);
-});
-
 afterEach(() => {
   // cleanup on exiting
   unmountComponentAtNode(container);
