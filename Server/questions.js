@@ -34,6 +34,7 @@ export function randomQuestion() {
 /// Checks whether the answer passed in is the correct one for a given question id.
 /// The format of 'answer' should be 'answer_x', where x is a,b,c,d etc...
 export function isCorrectAnswer(id, answer) {
+  if (!/^answer_.$/.test(answer)) throw new Error("Not a valid answer format!");
   const question = Questions.find((q) => q.id === id);
   return question.correct_answers[answer + "_correct"] === "true";
 }
