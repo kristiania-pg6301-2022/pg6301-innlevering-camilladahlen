@@ -75,5 +75,6 @@ describe("A quiz component", () => {
     });
 
     expect(checkAnswerMock).toHaveBeenCalled();
+    expect(container.innerHTML).toMatchSnapshot();
   });
 });
