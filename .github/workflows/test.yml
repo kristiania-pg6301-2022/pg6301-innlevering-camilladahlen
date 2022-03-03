@@ -16,6 +16,10 @@ jobs:
           node-version: 16.x
           cache: 'npm'
       - run: npm ci
+      - run: npm install
+        working-directory: Client
+      - run: npm install
+        working-directory: Server
       - run: npm run verify # Runs tests and collects coverage
       - name: Coveralls
         uses: coverallsapp/github-action@master
