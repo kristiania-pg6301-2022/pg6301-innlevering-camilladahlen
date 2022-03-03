@@ -7,18 +7,15 @@ export function QuestionDisplay({ question, quizApi, reload }) {
     return (
       <div>
         <h2>{question.question}</h2>
-        {Object.keys(question.answers)
-          .filter((a) => question.answers[a])
-          .map((a) => (
-            <div key={a}>
+        {Object.keys(question.answers) //This gives us a stream of all the keys in the object.answers properties (remember, a JS object is just a key-value mapping)
+          .map((answer) => (
+            <div key={answer}>
               <button
                 onClick={async () =>
-                  setAnswer(
-                    await quizApi.checkAnswer(question.id, question.answers[a])
-                  )
+                  setAnswer(await quizApi.checkAnswer(question.id, answer))
                 }
               >
-                {question.answers[a]}
+                {question.answers[answer]}
               </button>
             </div>
           ))}
