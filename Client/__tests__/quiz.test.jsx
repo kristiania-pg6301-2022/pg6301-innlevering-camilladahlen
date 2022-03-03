@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM, { unmountComponentAtNode } from "react-dom";
-import { act } from "react-dom/test-utils";
+import { act, Simulate } from "react-dom/test-utils";
 import { QuizComponent } from "../quizComponent";
-import { fetchJSON, submitJSON } from "../http";
+import { QuizApi } from "../quizApi";
 
 const question = {
   id: 1,
@@ -14,21 +14,29 @@ const question = {
     answer_c: "Maybe",
   },
 };
-
-class QuizApi {
-  async getQuestion() {
-    return question;
-  }
-
-  async checkAnswer(id, answer) {
+const checkAnswerMock = jest
+  .spyOn(QuizApi.prototype, "checkAnswer")
+  .mockImplementation(() => {
     return "true";
-  }
-}
+  });
+const getQuestionMock = jest
+  .spyOn(QuizApi.prototype, "getQuestion")
+  .mockImplementation(() => {
+    return question;
+  });
+
 let container = null;
+
 beforeEach(() => {
   // setup a DOM element as a render target
   container = document.createElement("div");
   document.body.appendChild(container);
+});
+
+it("QuizApi constructor has been called", () => {
+  expect(QuizApi).not.toHaveBeenCalled();
+  const api = new QuizApi();
+  expect(QuizApi).toHaveBeenCalledTimes(1);
 });
 
 afterEach(() => {
@@ -58,5 +66,20 @@ describe("A quiz component", () => {
       );
     });
     expect(container.textContent).toContain(question.question);
+  });
+
+  it("changes state on submission of answers", async () => {
+    await act(async () => {
+      await ReactDOM.render(
+        <QuizComponent quizApi={new QuizApi()} />,
+        container
+      );
+    });
+
+    await act(async () => {
+      await Simulate.click(container.querySelector("button"));
+    });
+
+    expect(checkAnswerMock).toHaveBeenCalled();
   });
 });
